@@ -8,6 +8,12 @@ pyAvTools is an open source aviation tool kit, providing useful modules for Pyth
 Aviation apps, including:
     * Data management package for charting objects
     * Flight Information eXchange (FIX) database module
+    * A hard-button based user interface layer utilizing Qt (no keyboard or mouse required)
+        * Uses a rotary encoder + push buttons
+        * NumberWidget (Show/Change a number)
+        * ChoiceWidget (Show/Change a radio-button style section)
+        * SelectMenuWidget (Show/Change a menu style section)
+        * FIXDisplay (Show a collection of FIX database items)
     * Others for future consideration
 
 Installation
