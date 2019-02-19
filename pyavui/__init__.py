@@ -382,3 +382,62 @@ class SelectMenuWidget(QGraphicsView):
         self.menu_action()
         return False
 
+class FIXDisplay(QWidget):
+    def __init__(self, title, dbitems, parent=None,
+                    columns=3, font_pixel_size=10, description_overrides=None,
+                    css_styles=None, item_css_styles=None):
+        super(FIXDisplay, self).__init__(parent)
+        self.parent = parent
+        self.dbitems = dbitems
+        self.columns = columns
+        font = QFont()
+        font.setBold(True)
+        font.setPixelSize(font_pixel_size)
+        self.layout = QGridLayout()
+        row = 1
+        column = 0
+        columns_per_item=3
+        self.value_displays = list()
+        self.last_values = list()
+        for index,dbi in enumerate(dbitems):
+            item_widget = QWidget(parent=self)
+            item_layout = QHBoxLayout()
+            if description_overrides is not None and description_overrides[index] is not None:
+                desc = QLabel (description_overrides[index], parent=item_widget)
+            else:
+                desc = QLabel (dbi.description, parent=item_widget)
+            item_layout.addWidget(desc)
+
+            self.last_values.append (dbi.value)
+            value = QLabel(str(self.last_values[-1]), parent=item_widget)
+            self.value_displays.append (value)
+            value.setFont(font)
+            item_layout.addWidget(value)
+
+            un = QLabel (dbi.units, parent=item_widget)
+            item_layout.addWidget(un)
+            item_widget.setLayout(item_layout)
+            if item_css_styles is not None:
+                desc.setStyleSheet (item_css_styles)
+                value.setStyleSheet (item_css_styles)
+                un.setStyleSheet (item_css_styles)
+            self.layout.addWidget (item_widget, row, column)
+
+            column += 1
+            if column >= columns:
+                row += 1
+                column = 0
+            dbi.valueChanged[dbi.dtype].connect(self.fix_change)
+
+        title_label = QLabel (title, parent=self)
+        self.layout.addWidget(title_label, 0, 0, 1, -1, alignment=Qt.AlignCenter)
+        self.setLayout(self.layout)
+        if css_styles is not None:
+            self.setStyleSheet (css_styles)
+        self.adjustSize()
+        
+    def fix_change(self, event):
+        for index,(dbi,last_val) in enumerate(zip(self.dbitems,self.last_values)):
+            if dbi.value != last_val:
+                self.last_values[index] = dbi.value
+                self.value_displays[index].setText (str(self.last_values[index]))
