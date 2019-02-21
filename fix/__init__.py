@@ -376,11 +376,12 @@ def initialize(config):
 
     scheduler.initialize()
 
-    for output in config["outputs"]:
-        try:
-            db.add_output(output.upper(), config["outputs"][output])
-        except ValueError as e:
-            log.warning(e)
+    if 'outputs' in config:
+        for output in config["outputs"]:
+            try:
+                db.add_output(output.upper(), config["outputs"][output])
+            except ValueError as e:
+                log.warning(e)
 
 
 def stop():
