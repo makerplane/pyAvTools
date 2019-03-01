@@ -27,7 +27,8 @@ import threading
 from datetime import datetime
 
 from . import client
-import scheduler
+from .. import scheduler
+#import pyavtools.scheduler as scheduler
 
 
 # This class represents a single data point in the database.  It contains
