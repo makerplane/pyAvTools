@@ -8,22 +8,20 @@ with open("README.rst", "r") as fh:
 datafiles = []
 
 setuptools.setup(
-    name="pyavdb",
+    name="pyavtools",
     version="0.1.0",
     author="Garrett Herschleb",
     author_email="9.planetary.drive@gmail.com",
-    description="pyAvDb ",
+    description="pyAvTools",
     long_description=long_description,
     #long_description_content_type="text/x-rst",
     url="https://github.com/makerplane/pyAvDb",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=["tests.*", "tests"]),
     install_requires = ['pyyaml',],
-    data_files = datafiles,
-    #test_suite = 'tests',
-    #scripts = ['bin/fixgw', 'bin/fixgwc'],
-    # entry_points = {
-    #     'console_scripts': ['fixgw=fixgw.server:main', 'fixgwc=fixgw.client:main'],
-    # },
+    #data_files = datafiles,
+    entry_points = {
+        'console_scripts': ['makecifpindex=pyavtools.utils.MakeCIFPIndex:main'],
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)"
