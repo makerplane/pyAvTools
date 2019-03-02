@@ -1,4 +1,4 @@
-#  Copyright (c) 2016-2019 Phil Birkelbach
+# Copyright (c) 2016-2019 Phil Birkelbach
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,8 @@ import threading
 from datetime import datetime
 
 from . import client
-import scheduler
+from .. import scheduler
+#import pyavtools.scheduler as scheduler
 
 
 # This class represents a single data point in the database.  It contains
