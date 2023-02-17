@@ -18,6 +18,9 @@ setuptools.setup(
     url="https://github.com/makerplane/pyAvDb",
     packages=setuptools.find_packages(exclude=["tests.*", "tests"]),
     install_requires = ['pyyaml',],
+    extras_require = {
+        'build': ['build==0.10.0']
+    },
     #data_files = datafiles,
     entry_points = {
         'console_scripts': ['makecifpindex=pyavtools.utils.MakeCIFPIndex:main'],

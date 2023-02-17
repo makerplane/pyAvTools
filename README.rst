@@ -60,5 +60,16 @@ Then, you can install all required dependencies:
 Afterwards, you are ready to develop. Once one or more dependencies have changed, simply run
 `make init` again.
 
+Distribution
+------------
+
+To create a Python wheel for distribution, run:
+
+::
+
+  make wheel
+
+The wheel will be then created in the `dist/` directory.
+
 Requirements
 ------------

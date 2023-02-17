@@ -6,4 +6,6 @@ config.py
 .directory
 *.egg-info
 venv/
+build/
+dist/
 *.marker
