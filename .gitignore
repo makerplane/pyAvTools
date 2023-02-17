@@ -5,3 +5,5 @@ config.py
 *.log
 .directory
 *.egg-info
+venv/
+*.marker

@@ -42,5 +42,23 @@ can issue the command...
 from the root directory of the source repository.  **Caution** This feature is still
 in development and may not work consistently.
 
+Development
+-----------
+
+To set up your development environment, you can create a virtualenv:
+
+::
+
+  make venv
+
+Then, you can install all required dependencies:
+
+::
+
+  make init
+
+Afterwards, you are ready to develop. Once one or more dependencies have changed, simply run
+`make init` again.
+
 Requirements
 ------------
