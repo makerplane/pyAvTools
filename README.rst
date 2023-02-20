@@ -42,5 +42,34 @@ can issue the command...
 from the root directory of the source repository.  **Caution** This feature is still
 in development and may not work consistently.
 
+Development
+-----------
+
+To set up your development environment, you can create a virtualenv:
+
+::
+
+  make venv
+
+Then, you can install all required dependencies:
+
+::
+
+  make init
+
+Afterwards, you are ready to develop. Once one or more dependencies have changed, simply run
+`make init` again.
+
+Distribution
+------------
+
+To create a Python wheel for distribution, run:
+
+::
+
+  make wheel
+
+The wheel will be then created in the `dist/` directory.
+
 Requirements
 ------------
