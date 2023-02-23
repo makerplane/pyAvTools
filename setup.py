@@ -14,7 +14,7 @@ setuptools.setup(
     author_email="9.planetary.drive@gmail.com",
     description="pyAvTools",
     long_description=long_description,
-    #long_description_content_type="text/x-rst",
+    long_description_content_type="text/x-rst",
     url="https://github.com/makerplane/pyAvDb",
     packages=setuptools.find_packages(exclude=["tests.*", "tests"]),
     install_requires = ['pyyaml',],
