@@ -96,6 +96,12 @@ class ClientThread(threading.Thread):
             #except:
             #    pass
             # if x[2] != '00000' or x[2] != '0000':
+            # If the value we just received is different than
+            # the value we have and this item is set to be output
+            # we block it
+            if (str(item.value) != x[1]) and item.output:
+                item.block_output = True
+
             item.value = x[1]
 
 
