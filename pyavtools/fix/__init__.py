@@ -109,7 +109,7 @@ class DB_Item(QObject):
     # Outputs the value to the send queue and on to the fixgw server
     def output_value(self):
         if self.block_output:
-            # Do not send data we jsut received
+            # Do not send data we just received
             self.block_output = False
             return
         flags = "1" if self.annunciate else "0"
