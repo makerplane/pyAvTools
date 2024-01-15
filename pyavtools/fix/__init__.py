@@ -108,6 +108,10 @@ class DB_Item(QObject):
 
     # Outputs the value to the send queue and on to the fixgw server
     def output_value(self):
+        if self.block_output:
+            # Do not send data we just received
+            self.block_output = False
+            return
         flags = "1" if self.annunciate else "0"
         flags += "0" # if self.old else "0"
         flags += "1" if self.bad else "0"
@@ -296,6 +300,7 @@ class Database(object):
         item.old = False
         item.bad = True
         item.fail = True
+        item.block_output = False
         item.description = desc
         item.min = min
         item.max = max
