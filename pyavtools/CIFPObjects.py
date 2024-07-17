@@ -23,6 +23,9 @@ import logging
 import math
 from functools import partial
 import struct
+from pygeomag import GeoMag
+from pygeomag import calculate_decimal_year
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -219,9 +222,16 @@ SUSAP KABQK2GRW03    0100000340 N35012009W106375017         +1595705305000060150
         self.lng = read_lng (line[41:51])
         self.name = line[13:18]
         self.name = self.name.strip()
-        self.bearing = make_float(line[27:31], 3)
+        self.mag_bearing = make_float(line[27:31], 3)
         self.length = int(line[22:27])
         self.elevation = int(line[66:71])
+        # Render the runway using tru baring, not magnetic
+        self.magnetic_declination = GeoMag().calculate(glat=self.lat, glon=self.lng, alt=0, time=calculate_decimal_year(datetime.now())).d
+        md = self.magnetic_declination
+        if md is None:
+            md = 0
+        #print(f"self.name:{self.name} md:{md} self.mag_bearing:{self.mag_bearing} self.elevation:{self.elevation} md:{md})")
+        self.bearing = (self.mag_bearing + md)
 
     def __str__(self):
         return "Runway " + self.name + " at airport " + self.airport_id + " " + \
@@ -269,7 +279,7 @@ SUSAP KABQK2GRW03    0100000340 N35012009W106375017         +1595705305000060150
         # see if we're in view
         centerpoint = pov.point2D (self.lat, self.lng)
         if centerpoint is None:
-            #print ("%s out of screen: %f,%f"%(str(self), self.lat, self.lng))
+            #print ("%s 1 out of screen: %f,%f"%(str(self), self.lat, self.lng))
             display_object.eliminate_runway (self.name, self.airport_id)
             return
         px,py = centerpoint
@@ -285,13 +295,15 @@ SUSAP KABQK2GRW03    0100000340 N35012009W106375017         +1595705305000060150
             #print ("%s out of clipping: %f,%f"%(str(self), px, py))
             side1_out = True
         if px < -display_width or px > display_width or py < -display_width or py > display_width:
-            #print ("%s out of screen: %f,%f"%(str(self), self.lat, self.lng))
+            #print ("%s 2 out of screen: %f,%f"%(str(self), self.lat, self.lng))
             display_object.eliminate_runway (self.name, self.airport_id)
             return
         otherpoint = pov.point2D (self.opposing_rw.lat, self.opposing_rw.lng)
         if otherpoint is None:
             #print ("%s side2 out of screen: %f,%f"%(str(self), self.opposing_rw.lat, self.opposing_rw.lng))
-            display_object.eliminate_runway (self.name, self.airport_id)
+            # I believe not hiding the runway here looks better
+            # unsure if this has any bad side effects tho 
+            #display_object.eliminate_runway (self.name, self.airport_id)
             return
         px,py = otherpoint
         if px < clip_minx or px > clip_maxx or py < clip_miny or py > clip_maxy:
@@ -301,7 +313,9 @@ SUSAP KABQK2GRW03    0100000340 N35012009W106375017         +1595705305000060150
                 return
         if px < -display_width or px > display_width or py < -display_width or py > display_width:
             #print ("%s out of screen: %f,%f"%(str(self), self.lat, self.lng))
-            display_object.eliminate_runway (self.name, self.airport_id)
+            # I believe not hiding the runway here looks better
+            # unsure if this has any bad side effects tho 
+            #display_object.eliminate_runway (self.name, self.airport_id)
             return
         width_2 = self.length * Runway.WIDTH_RATIO / 2
         width_2_nm = width_2 * NM_FEET
@@ -329,7 +343,7 @@ SUSAP KABQK2GRW03    0100000340 N35012009W106375017         +1595705305000060150
         p22 = pov.point2D (p22_lat, p22_lng)
 
         if p11 is None or p12 is None or p21 is None or p22 is None:
-            #print ("%s all out of clipping: %f,%f"%(str(self), px, py))
+            #print ("%s 1 all out of clipping: %f,%f"%(str(self), px, py))
             display_object.eliminate_runway (self.name, self.airport_id)
             return
         ys = [p11[1], p12[1], p21[1], p22[1]]
