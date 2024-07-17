@@ -296,7 +296,9 @@ SUSAP KABQK2GRW03    0100000340 N35012009W106375017         +1595705305000060150
             side1_out = True
         if px < -display_width or px > display_width or py < -display_width or py > display_width:
             #print ("%s 2 out of screen: %f,%f"%(str(self), self.lat, self.lng))
-            display_object.eliminate_runway (self.name, self.airport_id)
+            # I believe not hiding the runway here looks better
+            # unsure if this has any bad side effects tho 
+            #display_object.eliminate_runway (self.name, self.airport_id)
             return
         otherpoint = pov.point2D (self.opposing_rw.lat, self.opposing_rw.lng)
         if otherpoint is None:
