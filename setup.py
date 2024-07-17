@@ -17,7 +17,7 @@ setuptools.setup(
     long_description_content_type="text/x-rst",
     url="https://github.com/makerplane/pyAvDb",
     packages=setuptools.find_packages(exclude=["tests.*", "tests"]),
-    install_requires = ['pyyaml',],
+    install_requires = ['pyyaml','pyGeoMag'],
     extras_require = {
         'build': ['build==0.10.0']
     },
