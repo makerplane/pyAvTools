@@ -64,7 +64,7 @@ class ScheduleThread(QThread):
         for each in self.timers:
             each.start()
 
-        self.exec_()
+        self.exec()
 
     def stop(self):
         for t in self.timers:
