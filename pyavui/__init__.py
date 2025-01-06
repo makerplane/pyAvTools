@@ -14,12 +14,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 try:
+    from PyQt6.QtGui import *
+    from PyQt6.QtCore import *
+    from PyQt6.QtWidgets import *
+except:
     from PyQt5.QtGui import *
     from PyQt5.QtCore import *
-    from PyQt5.QtWidgets import *
-except:
-    from PyQt4.QtGui import *
-    from PyQt4.QtCore import *
 
 import logging
 

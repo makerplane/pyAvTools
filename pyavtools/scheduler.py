@@ -17,9 +17,9 @@
 # This is a really low brow scheduler.
 
 try:
-    from PyQt5.QtCore import *
+    from PyQt6.QtCore import *
 except:
-    from PyQt4.QtCore import *
+    from PyQt5.QtCore import *
 
 import logging
 
@@ -64,7 +64,7 @@ class ScheduleThread(QThread):
         for each in self.timers:
             each.start()
 
-        self.exec_()
+        self.exec()
 
     def stop(self):
         for t in self.timers:

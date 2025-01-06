@@ -18,9 +18,9 @@
 # from FIX-Gateway.
 
 try:
-    from PyQt5.QtCore import *
+    from PyQt6.QtCore import *
 except:
-    from PyQt4.QtCore import *
+    from PyQt5.QtCore import *
 
 import logging
 import threading
