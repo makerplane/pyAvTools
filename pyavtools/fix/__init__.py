@@ -24,7 +24,7 @@ except:
 
 import logging
 import threading
-from datetime import datetime
+from datetime import datetime, timezone
 
 from . import client
 from .. import scheduler
@@ -60,7 +60,7 @@ class DB_Item(QObject):
         self._max = 100.0
         self._min = 0.0
         self._tol = 100     # Timeout lifetime in milliseconds.  Any older and quality is bad
-        self.timestamp = datetime.utcnow()
+        self.timestamp = datetime.now(timezone.utc)
         self.aux = {}
         self.output = False
         self.subscribe = True
@@ -123,7 +123,7 @@ class DB_Item(QObject):
     # return the age of the item in milliseconds
     @property
     def age(self):
-        d = datetime.utcnow() - self.timestamp
+        d = datetime.now(timezone.utc) - self.timestamp
         return d.total_seconds() * 1000 + d.microseconds / 1000
 
     @property
@@ -157,7 +157,7 @@ class DB_Item(QObject):
                     #raise
                     pass  # ignore at this point
         # set the timestamp to right now
-        self.timestamp = datetime.utcnow()
+        self.timestamp = datetime.now(timezone.utc)
         if last != self._value:
             #print("ValueChanged {0} {1}".format(self.key, self._value))
             self.valueChanged[self.dtype].emit(self._value)
